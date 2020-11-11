@@ -4,25 +4,27 @@ import java.time.LocalDate;
 
 public class user {
 	
-	private int UserID;
-	private int BranchID;
+	private int branchID;
 	private String firstName;
 	private String lastName;
-	private String Email;
-	private String Password;
+	private String email;
+	private String password;
 	private LocalDate DOB;
 	
-	public int getUserID() {
-		return UserID;
+	public user(int branchID, String firstName, String lastName, String email, String password, LocalDate DOB) {
+		this.branchID= branchID;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.DOB = DOB;
 	}
-	public void setUserID(int userID) {
-		UserID = userID;
-	}
+	
 	public int getBranchID() {
-		return BranchID;
+		return branchID;
 	}
 	public void setBranchID(int branchID) {
-		BranchID = branchID;
+		this.branchID = branchID;
 	}
 	public String getFirstName() {
 		return firstName;
@@ -37,22 +39,24 @@ public class user {
 		this.lastName = lastName;
 	}
 	public String getEmail() {
-		return Email;
+		return email;
 	}
 	public void setEmail(String email) {
-		Email = email;
+		this.email = email;
 	}
 	public String getPassword() {
-		return Password;
+		return password;
 	}
 	public void setPassword(String password) {
-		Password = password;
+		this.password = password;
 	}
-	public String getDOB() {
+	public LocalDate getDOB() {
 		return DOB;
 	}
-	public void setDOB(String dOB) {
+	public void setDOB(LocalDate dOB) {
 		DOB = dOB;
 	}
+	
+	
 
 }
