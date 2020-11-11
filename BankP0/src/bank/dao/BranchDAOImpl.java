@@ -55,7 +55,23 @@ public class BranchDAOImpl implements BranchDAO {
 	@Override
 	public boolean addBranch(Branch branch) {
 		// TODO Auto-generated method stub
-		return false;
+		try {
+		connection = DAOUtilities.getConnection();
+		String sql = "insert into branches (BranchName, BranchCity) values (? , ?)";
+		stmt = connection.prepareStatement(sql);
+		stmt.setString(1, branch.getBranchName());
+		stmt.setString(2, branch.getBranchCity());
+		if (stmt.executeUpdate() != 0)
+			return true;
+		else
+			return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			closeResources();
+		}
+		
 	}
 	
 	private void closeResources() {
