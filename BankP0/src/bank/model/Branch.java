@@ -1,6 +1,6 @@
 package bank.model;
 
-public class branch {
+public class Branch {
 	
 	
 	private String branchName;
@@ -8,9 +8,14 @@ public class branch {
 	
 	
 	
-	public branch (String branchName, String branchCity) {
+	public Branch (String branchName, String branchCity) {
 		this.branchName = branchName;
 		this.branchCity = branchCity;
+	}
+	
+	public Branch() {
+		this.branchName = null;
+		this.branchCity = null;
 	}
 	
 	public String getBranchName() {

@@ -1,13 +1,13 @@
 package bank.model;
 
-public class account {
+public class Account {
  
 	private int userID;
 	private String accountNumber;
 	private double balance;
 	private String status;
 	
-	public account(int userID, String accountNumber, double balance, String status) {
+	public Account(int userID, String accountNumber, double balance, String status) {
 		this.userID = userID;
 		this.accountNumber = accountNumber;
 		this.balance = balance;

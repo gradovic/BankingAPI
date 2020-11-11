@@ -2,7 +2,7 @@ package bank.model;
 
 import java.time.LocalDate;
 
-public class user {
+public class User {
 	
 	private int branchID;
 	private String firstName;
@@ -11,7 +11,7 @@ public class user {
 	private String password;
 	private LocalDate DOB;
 	
-	public user(int branchID, String firstName, String lastName, String email, String password, LocalDate DOB) {
+	public User(int branchID, String firstName, String lastName, String email, String password, LocalDate DOB) {
 		this.branchID= branchID;
 		this.firstName = firstName;
 		this.lastName = lastName;
