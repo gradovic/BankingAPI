@@ -32,4 +32,5 @@ CREATE TABLE accounts
 	constraint fk_userid
      foreign key (UserID) 
      REFERENCES users (UserID)
+	on delete cascade;
 );
