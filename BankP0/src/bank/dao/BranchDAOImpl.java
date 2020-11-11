@@ -1,4 +1,4 @@
-package bank.model;
+package bank.dao;
 
 import java.sql.SQLException;
 import java.sql.ResultSet;
@@ -6,8 +6,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
+
+import bank.model.Branch;
+import bank.model.User;
 import bank.utilities.*;
-import bank.dao.BranchDAO;
 
 public class BranchDAOImpl implements BranchDAO {
 	Connection connection = null;	// Intialize the connection with null

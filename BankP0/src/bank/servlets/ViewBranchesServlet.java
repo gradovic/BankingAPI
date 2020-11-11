@@ -6,8 +6,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
-//Servlet to get all the branches
+import bank.dao.BranchDAOImpl;
+import bank.model.Branch;
 
 @WebServlet("/get_branches")
 public class ViewBranchesServlet extends HttpServlet {
@@ -26,16 +28,14 @@ public class ViewBranchesServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-//		response.getWriter().append("Served at: ").append(request.getContextPath());
-		response.getWriter().append("get all branches servlet");
+		BranchDAOImpl branchImpl = new BranchDAOImpl();
+		List<Branch> branches = branchImpl.getAllBranches();
+		String output = "";
+		for(Branch branch:branches) {
+			output = output.concat("<tr><td>" + branch.getBranchName() + "</td><td>" + branch.getBranchCity() + "</td></tr>");
+		}
+		response.getWriter().append("<table style='border: 1px solid black;'><tr><th>Branch Name</th><th>Branch City</th></tr>" + output + "</table>");
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
 
 }
