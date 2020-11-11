@@ -13,15 +13,7 @@ import bank.model.Branch;
 
 @WebServlet("/get_branches")
 public class ViewBranchesServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ViewBranchesServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	private static final long serialVersionUID = 1L;       
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
