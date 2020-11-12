@@ -7,7 +7,7 @@ import bank.model.User;;
 public interface BranchDAO {
 	
 	public List<Branch> getAllBranches();
-	public List<User> getAllUserByBranch(int branchID);
+	public List<User> getAllUsersByBranch(int branchID);
 	public boolean addBranch(Branch branch);
 
 }

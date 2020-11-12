@@ -47,9 +47,33 @@ public class BranchDAOImpl implements BranchDAO {
 	}
 
 	@Override
-	public List<User> getAllUserByBranch(int branchID) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<User> getAllUsersByBranch(int branchID) {
+		List<User> users = new ArrayList<>();
+		try {
+		connection = DAOUtilities.getConnection();
+		String sql = "select * from users where branchid = ?";
+		stmt = connection.prepareStatement(sql);
+		stmt.setInt(1, branchID);
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			User user = new User();
+			user.setFirstName(rs.getString("firstname"));
+			user.setLastName(rs.getString("lastname"));
+			user.setEmail(rs.getString("email"));
+			user.setPassword(rs.getString("pass"));
+			user.setDOB(rs.getDate("dob").toLocalDate());
+			users.add(user);
+		}
+		rs.close();
+		
+		}catch(SQLException e) {
+		e.printStackTrace(); 
+		}finally {
+		closeResources();
+		}
+	
+	// return the list of users.
+	return users;
 	}
 
 	@Override
