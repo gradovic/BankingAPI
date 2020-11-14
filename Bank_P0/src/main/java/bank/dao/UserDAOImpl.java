@@ -1,6 +1,7 @@
 package bank.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -49,8 +50,31 @@ public class UserDAOImpl implements UserDAO{
 
 	@Override
 	public boolean addUser(User add) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		try {
+			connection = DAOUtilities.getConnection();
+			String sql = "insert into users (branchid, firstname, lastname, email, pass, dob) values (?, ?, ?, ?, ?, ?)";
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, add.getBranchID());
+			stmt.setString(2,  add.getFirstName());
+			stmt.setString(3,  add.getLastName());
+			stmt.setString(4,  add.getEmail());
+			stmt.setString(5,  add.getPassword());
+			stmt.setDate(6, Date.valueOf(add.getDOB()));
+			
+			if (stmt.executeUpdate() != 0)
+				return true;
+			else
+				return false;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}finally {
+			closeResources();
+		}
+		
+		
 	}
 
 	@Override

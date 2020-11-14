@@ -2,6 +2,7 @@ package bank.dao;
 
 import static org.junit.Assert.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.Before;
@@ -24,7 +25,10 @@ public class UserDAOImplTest {
 
 	@Test
 	public void testAddUser() {
-		fail("Not yet implemented");
+		// because Email is configured to be unique on the database
+		float randomEmail = (float) ((Math.random() * 10) + 1);
+		User user = new User(2, "jUnitFirst", "jUnitLast", "jUnitEmail" + String.valueOf(randomEmail), "jUnitPass", LocalDate.of(1990, 6, 22));
+		assertTrue(impl.addUser(user));
 	}
 
 	@Test
