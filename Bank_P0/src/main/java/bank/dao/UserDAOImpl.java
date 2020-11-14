@@ -78,9 +78,23 @@ public class UserDAOImpl implements UserDAO{
 	}
 
 	@Override
-	public boolean deleteUser(User delete) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean deleteUser(int userID) {
+		
+		try {
+			connection = DAOUtilities.getConnection();
+			String sql = "delete from users where userid=?";
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, userID);
+			if(stmt.executeUpdate() !=0) return true;	
+			else return false;
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}finally {
+			closeResources();
+		}
+		
 	}
 	
 	private void closeResources() {

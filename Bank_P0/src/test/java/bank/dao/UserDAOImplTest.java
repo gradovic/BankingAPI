@@ -31,9 +31,6 @@ public class UserDAOImplTest {
 		assertTrue(impl.addUser(user));
 	}
 
-	@Test
-	public void testDeleteUser() {
-		fail("Not yet implemented");
-	}
+	
 
 }

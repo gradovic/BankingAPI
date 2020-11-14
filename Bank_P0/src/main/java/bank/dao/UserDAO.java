@@ -8,5 +8,5 @@ public interface UserDAO {
 	
 	List<User> getAllusers();
 	boolean addUser(User add);
-	boolean deleteUser(User delete);
+	boolean deleteUser(int userID);
 }
