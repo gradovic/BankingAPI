@@ -2,7 +2,7 @@ package bank.dao;
 import java.util.List;
 
 import bank.model.Branch;
-import bank.model.User;;
+import bank.model.User;
 
 public interface BranchDAO {
 	
