@@ -4,15 +4,16 @@ import java.time.LocalDate;
 
 public class User {
 	
-
+	private int branchID;
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String password;
 	private LocalDate DOB;
 	
-	public User(String firstName, String lastName, String email, String password, LocalDate DOB) {
-
+	public User(int branchID, String firstName, String lastName, String email, String password, LocalDate DOB) {
+		
+		this.branchID = branchID;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -21,11 +22,20 @@ public class User {
 	}
 	
 	public User() {
+		this.branchID = -1;
 		this.firstName = null;
 		this.lastName = null;
 		this.email = null;
 		this.password = null;
 		this.DOB = null;
+	}
+	
+	public int getBranchID() {
+		return branchID;
+	}
+
+	public void setBranchID(int branchID) {
+		this.branchID = branchID;
 	}
 	
 	
