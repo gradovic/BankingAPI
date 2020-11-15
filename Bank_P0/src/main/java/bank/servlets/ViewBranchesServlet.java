@@ -1,11 +1,17 @@
 package bank.servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import bank.dao.BranchDAOImpl;
@@ -13,7 +19,8 @@ import bank.model.Branch;
 
 @WebServlet("/get_branches")
 public class ViewBranchesServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;       
+	private static final long serialVersionUID = 1L; 
+	private Gson gson = new Gson();
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -22,11 +29,17 @@ public class ViewBranchesServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		BranchDAOImpl branchImpl = new BranchDAOImpl();
 		List<Branch> branches = branchImpl.getAllBranches();
-		String output = "";
+		ArrayList<String> output = new ArrayList<String>();
 		for(Branch branch:branches) {
-			output = output.concat("<tr><td>" + branch.getBranchName() + "</td><td>" + branch.getBranchCity() + "</td></tr>");
+			// convert branch objects to JSON format
+			output.add(this.gson.toJson(branch));
 		}
-		response.getWriter().append("<table style='border: 1px solid black;'><tr><th>Branch Name</th><th>Branch City</th></tr>" + output + "</table>");
+		PrintWriter out = response.getWriter();
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		out.print(output);
+		out.flush();
+		
 	}
 
 

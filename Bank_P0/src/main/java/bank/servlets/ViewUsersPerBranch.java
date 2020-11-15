@@ -1,6 +1,7 @@
 package bank.servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 import bank.dao.BranchDAOImpl;
+import bank.model.Branch;
 import bank.model.User;
 
 /**
@@ -19,7 +23,7 @@ import bank.model.User;
 @WebServlet("/users_per_branch")
 public class ViewUsersPerBranch extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	private Gson gson = new Gson();   
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -29,11 +33,16 @@ public class ViewUsersPerBranch extends HttpServlet {
 		int branchID = Integer.parseInt(query);
 		BranchDAOImpl branchImpl = new BranchDAOImpl();
 		List<User> users = branchImpl.getAllUsersByBranch(branchID);
-		String output = "";
-		for (User user:users) {
-			output = output.concat(user.getFirstName() + ",");
+		ArrayList<String> output = new ArrayList<String>();
+		for(User user:users) {
+			// convert user objects to JSON format
+			output.add(this.gson.toJson(user));
 		}
-		response.getWriter().append(output);
+		PrintWriter out = response.getWriter();
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		out.print(output);
+		out.flush();
 		}catch (NumberFormatException e) {
 			response.getWriter().append("branchID must be number only!! (eg url/?2)");
 		}
