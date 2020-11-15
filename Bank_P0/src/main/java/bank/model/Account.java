@@ -32,14 +32,6 @@ public class Account {
 		this.userID = userID;
 	}
 
-	public String getAccountNumber() {
-		return accountNumber;
-	}
-
-	public void setAccountNumber(String accountNumber) {
-		this.accountNumber = accountNumber;
-	}
-
 	public double getBalance() {
 		return balance;
 	}
