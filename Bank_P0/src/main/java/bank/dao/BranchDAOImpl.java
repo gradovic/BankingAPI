@@ -12,7 +12,7 @@ import bank.model.User;
 import bank.utilities.*;
 
 public class BranchDAOImpl implements BranchDAO {
-	Connection connection = null;	// Intialize the connection with null
+	Connection connection = null;	// Intialize the connection with Null
 	PreparedStatement stmt = null;	// to help protect against SQL injection
 
 	@Override
