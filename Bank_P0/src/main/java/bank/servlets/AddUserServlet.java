@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import bank.dao.UserDAOImpl;
 import bank.model.User;
 
@@ -27,7 +29,10 @@ public class AddUserServlet extends HttpServlet {
 		add.setFirstName(request.getParameter("firstname"));
 		add.setLastName(request.getParameter("lastname"));
 		add.setEmail(request.getParameter("email"));
-		add.setPassword(request.getParameter("pass"));
+		// hash the password before saving to DB using BCrypt
+		String password = request.getParameter("pass");
+		String hashed = BCrypt.hashpw(password, BCrypt.gensalt(12));
+		add.setPassword(hashed);
 		add.setDOB(LocalDate.parse(request.getParameter("dob")));
 		add.setRole(request.getParameter("role"));
 		boolean isAdded = userImpl.addUser(add);
