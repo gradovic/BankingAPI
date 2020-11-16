@@ -31,7 +31,7 @@ public class DeleteUserServlet extends HttpServlet {
 			response.getWriter().append("User doesn't exist!!");
 		}
 		}catch (NumberFormatException e) {
-			response.getWriter().append("userID must be number only!! (eg url/?2)");
+			response.getWriter().append("userID must be number only!! (eg url/delete_user?2)");
 		}
 	}
 

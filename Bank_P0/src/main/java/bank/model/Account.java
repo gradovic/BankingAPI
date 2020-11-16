@@ -1,15 +1,31 @@
 package bank.model;
 
+import java.time.LocalDate;
+
 public class Account {
  
 	private int userID;
 	private double balance;
 	private String status;
+	private LocalDate openDate;
 	
+	public LocalDate getOpenDate() {
+		return openDate;
+	}
+
+
+
+	public void setOpenDate(LocalDate openDate) {
+		this.openDate = openDate;
+	}
+
+
+
 	public Account(int userID, double balance, String status) {
 		this.userID = userID;
 		this.balance = balance;
 		this.status = status;
+		this.openDate = null;
 	}
 	
 	
@@ -19,6 +35,7 @@ public class Account {
 		this.userID = -1;
 		this.balance = 0;
 		this.status = null;
+		this.openDate = null;
 				
 	}
 

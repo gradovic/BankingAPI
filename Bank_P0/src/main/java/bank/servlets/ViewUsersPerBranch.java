@@ -20,7 +20,7 @@ import bank.model.User;
 /**
  * Servlet implementation class ViewUsersPerBranch
  */
-@WebServlet("/users_per_branch")
+@WebServlet("/user_branches")
 public class ViewUsersPerBranch extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Gson gson = new Gson();   
@@ -44,7 +44,7 @@ public class ViewUsersPerBranch extends HttpServlet {
 		out.print(output);
 		out.flush();
 		}catch (NumberFormatException e) {
-			response.getWriter().append("branchID must be number only!! (eg url/?2)");
+			response.getWriter().append("branchID must be number only!! (eg url/user_branches?2)");
 		}
 		
 		
