@@ -29,6 +29,7 @@ public class AddUserServlet extends HttpServlet {
 		add.setEmail(request.getParameter("email"));
 		add.setPassword(request.getParameter("pass"));
 		add.setDOB(LocalDate.parse(request.getParameter("dob")));
+		add.setRole(request.getParameter("role"));
 		boolean isAdded = userImpl.addUser(add);
 		
 		if(isAdded) {
