@@ -33,6 +33,7 @@ public class UserDAOImpl implements UserDAO{
 				user.setEmail(result.getString("email"));
 				user.setPassword(result.getString("pass"));
 				user.setDOB(result.getDate("dob").toLocalDate());
+				user.setRole(result.getString("role"));
 				
 				users.add(user);
 			}
@@ -53,7 +54,7 @@ public class UserDAOImpl implements UserDAO{
 		
 		try {
 			connection = DAOUtilities.getConnection();
-			String sql = "insert into users (branchid, firstname, lastname, email, pass, dob) values (?, ?, ?, ?, ?, ?)";
+			String sql = "insert into users (branchid, firstname, lastname, email, pass, dob, role) values (?, ?, ?, ?, ?, ?, ?)";
 			stmt = connection.prepareStatement(sql);
 			stmt.setInt(1, add.getBranchID());
 			stmt.setString(2,  add.getFirstName());
@@ -61,6 +62,7 @@ public class UserDAOImpl implements UserDAO{
 			stmt.setString(4,  add.getEmail());
 			stmt.setString(5,  add.getPassword());
 			stmt.setDate(6, Date.valueOf(add.getDOB()));
+			stmt.setString(7,  add.getRole());
 			
 			if (stmt.executeUpdate() != 0)
 				return true;

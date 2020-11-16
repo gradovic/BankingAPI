@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import bank.dao.BranchDAOImpl;
-import bank.model.Branch;
 import bank.model.User;
 
 /**
