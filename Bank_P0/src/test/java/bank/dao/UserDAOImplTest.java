@@ -23,13 +23,13 @@ public class UserDAOImplTest {
 		assertTrue(users.size() >= 0);
 	}
 
-	@Test
-	public void testAddUser() {
-		// because Email is configured to be unique on the database
-		float randomEmail = (float) ((Math.random() * 10) + 1);
-		User user = new User(2, "jUnitFirst", "jUnitLast", "jUnitEmail" + String.valueOf(randomEmail), "jUnitPass", LocalDate.of(1990, 6, 22));
-		assertTrue(impl.addUser(user));
-	}
+	/*
+	 * @Test public void testAddUser() { // because Email is configured to be unique
+	 * on the database float randomEmail = (float) ((Math.random() * 10) + 1); User
+	 * user = new User(2, "jUnitFirst", "jUnitLast", "jUnitEmail" +
+	 * String.valueOf(randomEmail), "jUnitPass", LocalDate.of(1990, 6, 22));
+	 * assertTrue(impl.addUser(user)); }
+	 */
 
 	
 
