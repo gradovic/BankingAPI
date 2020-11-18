@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import com.google.gson.Gson;
 
 import bank.dao.UserDAOImpl;
@@ -29,23 +31,30 @@ public class UserLoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UserDAOImpl userImpl = new UserDAOImpl();
 		String username = request.getParameter("username");
-		String password = request.getParameter("password"); 
-		
-		if(username !=null && password !=null) {
+		String password = request.getParameter("password"); 		
+		if(username !=null && !username.isEmpty() && password !=null && !password.isEmpty()) {
 			User user = userImpl.getUserByEmail(username);
-			String output = "";
 			if(user != null) {
-				output = this.gson.toJson(user);
-				PrintWriter out = response.getWriter();
-				response.setContentType("application/json");
-				response.setCharacterEncoding("UTF-8");
-				out.print(output);
-				out.flush();
+				String retrivedHash = user.getPassword();
+				if(BCrypt.checkpw(password, retrivedHash)) {
+					String output = this.gson.toJson(user);
+					PrintWriter out = response.getWriter();
+					response.setContentType("application/json");
+					response.setCharacterEncoding("UTF-8");
+					out.print(output);
+					out.flush();
+				}else {
+					response.getWriter().append("Incorrect Username/Paswowrd!!");
+				}
+				
+				
 				
 			}else {
-				response.getWriter().append("User not found!!");
+				response.getWriter().append("Incorrect Username/Paswowrd!!");
 			}
 			
+		}else {
+			response.getWriter().append("Username & Password are required");
 		}
 		
 	}
