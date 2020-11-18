@@ -32,8 +32,9 @@ public class JwtManager {
 
 	public static Jws<Claims> parseToken(final String compactToken) throws ExpiredJwtException, UnsupportedJwtException,
 			MalformedJwtException, SignatureException, IllegalArgumentException {
-		
-		return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(compactToken);
+		// remove Bearer string from compactToken
+		String JwtToken = compactToken.split(" ")[1];
+		return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(JwtToken);
 	}
 
 }

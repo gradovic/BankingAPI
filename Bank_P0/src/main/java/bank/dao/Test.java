@@ -36,7 +36,8 @@ public class Test {
 		 * 
 		 * System.out.println(resultAdmin); System.out.println(resultUser);
 		 */
-		
+		//String test = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiIxMiIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTYwNTY5MzU2MCwiaWF0IjoxNjA1Njc5MTYwfQ.jpEFHW43xvEMGmhX2Te-m-1gXUcCa0SxQQbr34Q4iis";
+		//System.out.println(test.split(" ")[1]);
 
 	}
 
