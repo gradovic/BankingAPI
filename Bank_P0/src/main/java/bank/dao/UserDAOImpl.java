@@ -111,6 +111,7 @@ public class UserDAOImpl implements UserDAO {
 			ResultSet result = stmt.executeQuery();
 
 			if (result.next()) {
+				user.setUserID(result.getInt("userid"));
 				user.setBranchID(result.getInt("branchid"));
 				user.setFirstName(result.getString("firstname"));
 				user.setLastName(result.getString("lastname"));

@@ -14,6 +14,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import com.google.gson.Gson;
 
+import bank.JWT.JwtManager;
 import bank.dao.UserDAOImpl;
 import bank.model.User;
 
@@ -37,12 +38,14 @@ public class UserLoginServlet extends HttpServlet {
 			if(user != null) {
 				String retrivedHash = user.getPassword();
 				if(BCrypt.checkpw(password, retrivedHash)) {
-					String output = this.gson.toJson(user);
-					PrintWriter out = response.getWriter();
-					response.setContentType("application/json");
-					response.setCharacterEncoding("UTF-8");
-					out.print(output);
-					out.flush();
+					//User is authenticated, then let's generate JWT token
+					String token = JwtManager.createToken(String.valueOf(user.getUserID()), user.getRole());
+					response.getWriter().append(token);
+					/*
+					 * String output = this.gson.toJson(user); PrintWriter out =
+					 * response.getWriter(); response.setContentType("application/json");
+					 * response.setCharacterEncoding("UTF-8"); out.print(output); out.flush();
+					 */
 				}else {
 					response.getWriter().append("Incorrect Username/Paswowrd!!");
 				}

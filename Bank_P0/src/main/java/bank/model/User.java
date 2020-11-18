@@ -3,7 +3,8 @@ package bank.model;
 import java.time.LocalDate;
 
 public class User {
-
+	
+	private int userID;
 	private int branchID;
 	private String firstName;
 	private String lastName;
@@ -25,6 +26,7 @@ public class User {
 	}
 
 	public User() {
+		this.userID = -1;
 		this.branchID = -1;
 		this.firstName = null;
 		this.lastName = null;
@@ -32,6 +34,16 @@ public class User {
 		this.password = null;
 		this.DOB = null;
 		this.role = null;
+	}
+	
+	
+
+	public int getUserID() {
+		return userID;
+	}
+
+	public void setUserID(int userID) {
+		this.userID = userID;
 	}
 
 	public int getBranchID() {
