@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ import io.jsonwebtoken.SignatureException;
 @WebServlet("/get_branches")
 public class ViewBranchesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L; 
-	private Gson gson = new Gson();
+	private ObjectMapper objectMapper = new ObjectMapper();
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -38,16 +38,8 @@ public class ViewBranchesServlet extends HttpServlet {
 				System.out.println(parsedToken);
 				BranchDAOImpl branchImpl = new BranchDAOImpl();
 				List<Branch> branches = branchImpl.getAllBranches();
-				ArrayList<String> output = new ArrayList<String>();
-				for(Branch branch:branches) {
-					// convert branch objects to JSON format
-					output.add(this.gson.toJson(branch));
-				}
-				PrintWriter out = response.getWriter();
-				response.setContentType("application/json");
-				response.setCharacterEncoding("UTF-8");
-				out.print(output);
-				out.flush();
+				String jsonString = objectMapper.writeValueAsString(branches);
+				response.getWriter().append(jsonString);
 			}catch (Exception e){
 				e.printStackTrace();
 				response.getWriter().append("Invalid Token, Please login");

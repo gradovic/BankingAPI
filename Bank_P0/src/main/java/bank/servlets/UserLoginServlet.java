@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-import com.google.gson.Gson;
 
 import bank.JWT.JwtManager;
 import bank.dao.UserDAOImpl;
@@ -24,8 +23,6 @@ import bank.model.User;
 @WebServlet("/login")
 public class UserLoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private Gson gson = new Gson(); 
-
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */

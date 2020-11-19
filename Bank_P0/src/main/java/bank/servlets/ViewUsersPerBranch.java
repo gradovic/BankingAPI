@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import bank.dao.BranchDAOImpl;
 import bank.model.User;
@@ -22,7 +22,7 @@ import bank.model.User;
 @WebServlet("/user_branches")
 public class ViewUsersPerBranch extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private Gson gson = new Gson();   
+	private ObjectMapper objectMapper = new ObjectMapper();   
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -32,16 +32,8 @@ public class ViewUsersPerBranch extends HttpServlet {
 		int branchID = Integer.parseInt(query);
 		BranchDAOImpl branchImpl = new BranchDAOImpl();
 		List<User> users = branchImpl.getAllUsersByBranch(branchID);
-		ArrayList<String> output = new ArrayList<String>();
-		for(User user:users) {
-			// convert user objects to JSON format
-			output.add(this.gson.toJson(user));
-		}
-		PrintWriter out = response.getWriter();
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
-		out.print(output);
-		out.flush();
+		String jsonString = objectMapper.writeValueAsString(users);
+		response.getWriter().append(jsonString);
 		}catch (NumberFormatException e) {
 			response.getWriter().append("branchID must be number only!! (eg url/user_branches?2)");
 		}
