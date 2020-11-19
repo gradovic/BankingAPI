@@ -57,6 +57,7 @@ public class BranchDAOImpl implements BranchDAO {
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next()) {
 			User user = new User();
+			user.setUserID(rs.getInt("userid"));
 			user.setBranchID(rs.getInt("branchid"));
 			user.setFirstName(rs.getString("firstname"));
 			user.setLastName(rs.getString("lastname"));

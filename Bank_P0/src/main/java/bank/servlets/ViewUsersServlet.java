@@ -12,8 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import bank.JWT.JwtManager;
+import bank.dao.BranchDAOImpl;
 import bank.dao.UserDAOImpl;
+import bank.model.Branch;
 import bank.model.User;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 
 /**
  * Servlet implementation class ViewUsersServlet
@@ -25,10 +30,29 @@ public class ViewUsersServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		UserDAOImpl impl = new UserDAOImpl();
-		List<User> users = impl.getAllusers();
-		String jsonString = objectMapper.writeValueAsString(users);
-		response.getWriter().append(jsonString);
+
+		String authTokenHeader = request.getHeader("Authorization");
+		if(authTokenHeader != null && !authTokenHeader.isEmpty()) {
+			try {
+				Jws<Claims> parsedToken = JwtManager.parseToken(authTokenHeader);
+				UserDAOImpl impl = new UserDAOImpl();
+				List<User> users = impl.getAllusers();
+				String jsonString = objectMapper.writeValueAsString(users);
+				response.getWriter().append(jsonString);
+				response.setStatus(200);
+				response.setContentType("application/json");
+			}catch (Exception e){
+				e.printStackTrace();
+				response.getWriter().append("Invalid Token, Please login");
+				response.setStatus(401);
+				
+			}
+			
+		}else {
+			response.getWriter().append("No Token provided, Please login!!");
+			response.setStatus(401);
+		}
+
 	}
 
 }

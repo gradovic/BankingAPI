@@ -7,12 +7,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bank.JWT.JwtManager;
 import bank.dao.AccountDAOImpl;
 import bank.dao.BranchDAOImpl;
 import bank.dao.UserDAOImpl;
 import bank.model.Account;
 import bank.model.Branch;
 import bank.model.User;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 
 /**
  * Servlet implementation class AddAccountServlet
@@ -27,20 +30,38 @@ public class AddAccountServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		AccountDAOImpl accountImpl = new AccountDAOImpl();
-		Account add = new Account();
-		add.setUserID(Integer.parseInt(request.getParameter("userid")));
-		add.setStatus(request.getParameter("status"));
-		add.setBalance(Double.parseDouble(request.getParameter("balance")));
 
-		boolean isAdded = accountImpl.addAccount(add);
+		String authTokenHeader = request.getHeader("Authorization");
+		if (authTokenHeader != null && !authTokenHeader.isEmpty()) {
+			try {
+				Jws<Claims> parsedToken = JwtManager.parseToken(authTokenHeader);
+				AccountDAOImpl accountImpl = new AccountDAOImpl();
+				Account add = new Account();
+				add.setUserID(Integer.parseInt(request.getParameter("userid")));
+				add.setStatus(request.getParameter("status"));
+				add.setBalance(Double.parseDouble(request.getParameter("balance")));
 
-		if (isAdded) {
+				boolean isAdded = accountImpl.addAccount(add);
 
-			response.getWriter().append("Account has been added successflly");
+				if (isAdded) {
+
+					response.getWriter().append("Account has been added successflly");
+					response.setStatus(200);
+				} else {
+
+					response.getWriter().append("smth went wrong! try again.");
+					response.setStatus(500);
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				response.getWriter().append("Invalid Token, Please login");
+				response.setStatus(401);
+			}
+
 		} else {
-
-			response.getWriter().append("smth went wrong! try again.");
+			response.getWriter().append("No Token provided, Please login!!");
+			response.setStatus(401);
 		}
 
 	}

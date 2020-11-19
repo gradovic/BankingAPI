@@ -15,52 +15,55 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import bank.JWT.JwtManager;
 import bank.dao.AccountDAOImpl;
-import bank.dao.UserDAOImpl;
 import bank.model.Account;
-import bank.model.Branch;
 import bank.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 
 /**
- * Servlet implementation class ViewAccountsServlet
+ * Servlet implementation class AccountsPerUser
  */
-@WebServlet("/get_accounts")
-public class ViewAccountsServlet extends HttpServlet {
+@WebServlet("/user_accounts")
+public class ViewAccountsPerUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ObjectMapper objectMapper = new ObjectMapper();
-	
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		String authTokenHeader = request.getHeader("Authorization");
-		
-		if(authTokenHeader != null && !authTokenHeader.isEmpty()) {
-			
+		if (authTokenHeader != null && !authTokenHeader.isEmpty()) {
 			try {
 				Jws<Claims> parsedToken = JwtManager.parseToken(authTokenHeader);
-				AccountDAOImpl accountImpl = new AccountDAOImpl();
-				List<Account> accounts = accountImpl.getAllAccounts();
-				String jsonString = objectMapper.writeValueAsString(accounts);
-				response.getWriter().append(jsonString);
-				response.setStatus(200);
-				response.setContentType("application/json");
-			}catch (Exception e){
+				String query = request.getQueryString();
+				try {
+					int userID = Integer.parseInt(query);
+					AccountDAOImpl accountImpl = new AccountDAOImpl();
+					List<Account> accounts = accountImpl.getAccountsPerUser(userID);
+					String jsonString = objectMapper.writeValueAsString(accounts);
+					response.getWriter().append(jsonString);
+					response.setStatus(200);
+					response.setContentType("application/json");
+
+				} catch (NumberFormatException e) {
+					response.getWriter().append("userID must be number only!! (eg url/user_accounts?2)");
+					response.setStatus(422);
+				}
+
+			} catch (Exception e) {
 				e.printStackTrace();
 				response.getWriter().append("Invalid Token, Please login");
 				response.setStatus(401);
+
 			}
-			
-		}else {
+
+		} else {
 			response.getWriter().append("No Token provided, Please login!!");
 			response.setStatus(401);
 		}
-		
-		
-		
 
-}
+		///
+
+	}
+
 }

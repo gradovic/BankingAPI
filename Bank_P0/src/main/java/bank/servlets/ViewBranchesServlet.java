@@ -40,13 +40,17 @@ public class ViewBranchesServlet extends HttpServlet {
 				List<Branch> branches = branchImpl.getAllBranches();
 				String jsonString = objectMapper.writeValueAsString(branches);
 				response.getWriter().append(jsonString);
+				response.setStatus(200);
+				response.setContentType("application/json");
 			}catch (Exception e){
 				e.printStackTrace();
 				response.getWriter().append("Invalid Token, Please login");
+				response.setStatus(401);
 			}
 			
 		}else {
 			response.getWriter().append("No Token provided, Please login!!");
+			response.setStatus(401);
 		}
 		
 		

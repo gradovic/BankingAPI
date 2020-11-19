@@ -26,6 +26,8 @@ public class UserLoginServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UserDAOImpl userImpl = new UserDAOImpl();
 		String username = request.getParameter("username");
@@ -38,23 +40,22 @@ public class UserLoginServlet extends HttpServlet {
 					//User is authenticated, then let's generate JWT token
 					String token = JwtManager.createToken(String.valueOf(user.getUserID()), user.getRole());
 					response.getWriter().append(token);
-					/*
-					 * String output = this.gson.toJson(user); PrintWriter out =
-					 * response.getWriter(); response.setContentType("application/json");
-					 * response.setCharacterEncoding("UTF-8"); out.print(output); out.flush();
-					 */
+					response.setStatus(200);
 				}else {
 					response.getWriter().append("Incorrect Username/Paswowrd!!");
+					response.setStatus(401);
 				}
 				
 				
 				
 			}else {
 				response.getWriter().append("Incorrect Username/Paswowrd!!");
+				response.setStatus(401);
 			}
 			
 		}else {
 			response.getWriter().append("Username & Password are required");
+			response.setStatus(422);
 		}
 		
 	}
