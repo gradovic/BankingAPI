@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import bank.dao.AccountDAOImpl;
 import bank.model.Account;
@@ -23,7 +23,7 @@ import bank.model.Branch;
 @WebServlet("/get_accounts")
 public class ViewAccountsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private Gson gson = new Gson();
+	private ObjectMapper objectMapper = new ObjectMapper();
 	
 
 	/**
@@ -32,16 +32,8 @@ public class ViewAccountsServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		AccountDAOImpl accountImpl = new AccountDAOImpl();
 		List<Account> accounts = accountImpl.getAllAccounts();
-		List<String> output = new ArrayList<String>();
-		for(Account account:accounts) {
-			// convert branch objects to JSON format
-			output.add(this.gson.toJson(account));
-		}
-		PrintWriter out = response.getWriter();
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
-		out.print(output);
-		out.flush();
+		String jsonString = objectMapper.writeValueAsString(accounts);
+		response.getWriter().append(jsonString);
 		
 
 }
