@@ -19,8 +19,8 @@ public class AccountDAOImpl implements AccountDAO {
 	public List<Account> getAllAccounts() {
 		List<Account> accounts = new ArrayList<Account>();
 
-		try {
-			connection = DAOUtilities.getConnection();
+		try (Connection connection = DAOUtilities.getConnection()) {
+
 			String sql = "select * from accounts";
 			stmt = connection.prepareStatement(sql);
 			ResultSet result = stmt.executeQuery();
@@ -36,8 +36,6 @@ public class AccountDAOImpl implements AccountDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-			closeResources();
 		}
 		return accounts;
 	}
@@ -45,8 +43,8 @@ public class AccountDAOImpl implements AccountDAO {
 	@Override
 	public List<Account> getAccountsPerUser(int UserID) {
 		List<Account> accounts = new ArrayList<Account>();
-		try {
-			connection = DAOUtilities.getConnection();
+		try (Connection connection = DAOUtilities.getConnection()) {
+
 			String sql = "select * from accounts where userid =?";
 			stmt = connection.prepareStatement(sql);
 			stmt.setInt(1, UserID);
@@ -64,8 +62,6 @@ public class AccountDAOImpl implements AccountDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-			closeResources();
 		}
 		return accounts;
 
@@ -74,8 +70,8 @@ public class AccountDAOImpl implements AccountDAO {
 	@Override
 	public boolean addAccount(Account add) {
 
-		try {
-			connection = DAOUtilities.getConnection();
+		try (Connection connection = DAOUtilities.getConnection()) {
+
 			String sql = "insert into accounts (userid, balance, status) values (?, ?, ?)";
 			stmt = connection.prepareStatement(sql);
 			stmt.setInt(1, add.getUserID());
@@ -89,16 +85,13 @@ public class AccountDAOImpl implements AccountDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
-		} finally {
-			closeResources();
-
 		}
 	}
 
 	@Override
 	public boolean deleteAccount(int accountID) {
-		try {
-			connection = DAOUtilities.getConnection();
+		try (Connection connection = DAOUtilities.getConnection()) {
+
 			String sql = "delete from accounts where accountid=?";
 			stmt = connection.prepareStatement(sql);
 			stmt.setInt(1, accountID);
@@ -109,27 +102,6 @@ public class AccountDAOImpl implements AccountDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
-		} finally {
-			closeResources();
-
-		}
-	}
-
-	private void closeResources() {
-		try {
-			if (stmt != null)
-				stmt.close();
-		} catch (SQLException e) {
-			System.out.println("Could not close statement!");
-			e.printStackTrace();
-		}
-
-		try {
-			if (connection != null)
-				connection.close();
-		} catch (SQLException e) {
-			System.out.println("Could not close connection!");
-			e.printStackTrace();
 		}
 	}
 
