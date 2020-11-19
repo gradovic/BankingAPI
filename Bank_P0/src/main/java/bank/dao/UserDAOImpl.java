@@ -13,14 +13,12 @@ import bank.utilities.DAOUtilities;
 
 public class UserDAOImpl implements UserDAO {
 
-	Connection connection = null; // Intialize the connection with null
 	PreparedStatement stmt = null; // to help protect against SQL injection
 
 	@Override
 	public List<User> getAllusers() {
 		List<User> users = new ArrayList<User>();
-		try {
-			connection = DAOUtilities.getConnection();
+		try (Connection connection = DAOUtilities.getConnection()) {
 			String sql = "select * from users";
 			stmt = connection.prepareStatement(sql);
 			ResultSet result = stmt.executeQuery();
@@ -42,9 +40,6 @@ public class UserDAOImpl implements UserDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-
-			closeResources();
 		}
 
 		return users;
@@ -53,8 +48,7 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public boolean addUser(User add) {
 
-		try {
-			connection = DAOUtilities.getConnection();
+		try (Connection connection = DAOUtilities.getConnection()) {
 			String sql = "insert into users (branchid, firstname, lastname, email, pass, dob, role) values (?, ?, ?, ?, ?, ?, ?)";
 			stmt = connection.prepareStatement(sql);
 			stmt.setInt(1, add.getBranchID());
@@ -73,17 +67,13 @@ public class UserDAOImpl implements UserDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
-		} finally {
-			closeResources();
 		}
-
 	}
 
 	@Override
 	public boolean deleteUser(int userID) {
 
-		try {
-			connection = DAOUtilities.getConnection();
+		try (Connection connection = DAOUtilities.getConnection()) {
 			String sql = "delete from users where userid=?";
 			stmt = connection.prepareStatement(sql);
 			stmt.setInt(1, userID);
@@ -95,8 +85,6 @@ public class UserDAOImpl implements UserDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
-		} finally {
-			closeResources();
 		}
 
 	}
@@ -104,8 +92,7 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public User getUserByEmail(String username) {
 		User user = new User();
-		try {
-			connection = DAOUtilities.getConnection();
+		try (Connection connection = DAOUtilities.getConnection()) {
 			String sql = "select * from users where email=?";
 			stmt = connection.prepareStatement(sql);
 			stmt.setString(1, username);
@@ -127,29 +114,8 @@ public class UserDAOImpl implements UserDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-
-			closeResources();
 		}
 		return null;
-	}
-
-	private void closeResources() {
-		try {
-			if (stmt != null)
-				stmt.close();
-		} catch (SQLException e) {
-			System.out.println("Could not close statement!");
-			e.printStackTrace();
-		}
-
-		try {
-			if (connection != null)
-				connection.close();
-		} catch (SQLException e) {
-			System.out.println("Could not close connection!");
-			e.printStackTrace();
-		}
 	}
 
 }
