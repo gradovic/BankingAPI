@@ -31,25 +31,36 @@ public class DeleteAccountServlet extends HttpServlet {
 		if (authTokenHeader != null && !authTokenHeader.isEmpty()) {
 			try {
 				Jws<Claims> parsedToken = JwtManager.parseToken(authTokenHeader);
-				String query = request.getQueryString();
-				try {
-					int accountID = Integer.parseInt(query);
-					AccountDAOImpl accountImpl = new AccountDAOImpl();
-					boolean isAdded = accountImpl.deleteAccount(accountID);
-					if (isAdded) {
+				String userRole = String.valueOf(parsedToken.getBody().get("role"));
+				//Test if user has admin role to be able to add or remove
+				if (userRole.equals("admin")) {
+					String query = request.getQueryString();
+					try {
+						int accountID = Integer.parseInt(query);
+						AccountDAOImpl accountImpl = new AccountDAOImpl();
+						boolean isAdded = accountImpl.deleteAccount(accountID);
+						if (isAdded) {
 
-						response.getWriter().append("Caller: " + parsedToken.getBody().get("email") + "\n Account has been deleted successflly");
-						response.setStatus(200);
-					} else {
+							response.getWriter().append("Caller: " + parsedToken.getBody().get("email") + " >> "
+									+ parsedToken.getBody().get("role") + "\n Account has been deleted successflly");
+							response.setStatus(200);
+						} else {
 
-						response.getWriter().append("smth went wrong! try again.");
-						response.setStatus(500);
+							response.getWriter().append("smth went wrong! try again.");
+							response.setStatus(500);
+						}
+
+					} catch (NumberFormatException e) {
+						response.getWriter().append("accountID must be number only!! (eg url/delete_account?2)");
+						response.setStatus(422);
 					}
 
-				} catch (NumberFormatException e) {
-					response.getWriter().append("accountID must be number only!! (eg url/delete_account?2)");
-					response.setStatus(422);
+				} else {
+					response.getWriter().append("Caller: " + parsedToken.getBody().get("email") + " >> " + userRole
+							+ "\n This user role is not allowed to delete");
+					response.setStatus(401);
 				}
+
 			} catch (Exception e) {
 				e.printStackTrace();
 				response.getWriter().append("Invalid Token, Please login");

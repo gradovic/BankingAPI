@@ -23,50 +23,59 @@ import io.jsonwebtoken.Jws;
 @WebServlet("/add_user")
 public class AddUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		String authTokenHeader = request.getHeader("Authorization");
-		if(authTokenHeader != null && !authTokenHeader.isEmpty()) {
+		if (authTokenHeader != null && !authTokenHeader.isEmpty()) {
 			try {
 				Jws<Claims> parsedToken = JwtManager.parseToken(authTokenHeader);
-				UserDAOImpl userImpl = new UserDAOImpl();
-				User add = new User();
-				add.setBranchID(Integer.parseInt(request.getParameter("branchid")));
-				add.setFirstName(request.getParameter("firstname"));
-				add.setLastName(request.getParameter("lastname"));
-				add.setEmail(request.getParameter("email"));
-				// hash the password before saving to DB using BCrypt
-				String password = request.getParameter("pass");
-				String hashed = BCrypt.hashpw(password, BCrypt.gensalt(12));
-				add.setPassword(hashed);
-				add.setDOB(LocalDate.parse(request.getParameter("dob")));
-				add.setRole(request.getParameter("role"));
-				boolean isAdded = userImpl.addUser(add);
-				
-				if(isAdded) {
-					System.out.println("ok");
-					response.getWriter().append("Caller: " + parsedToken.getBody().get("email") + "\n user has been added successflly");
-					response.setStatus(200);
-				}else {
-					System.out.println("wrong");
-					response.getWriter().append("smth went wrong! try again.");
-					response.setStatus(500);
+				String userRole = String.valueOf(parsedToken.getBody().get("role"));
+				//Test if user has admin role to be able to add or remove
+				if (userRole.equals("admin")) {
+					UserDAOImpl userImpl = new UserDAOImpl();
+					User add = new User();
+					add.setBranchID(Integer.parseInt(request.getParameter("branchid")));
+					add.setFirstName(request.getParameter("firstname"));
+					add.setLastName(request.getParameter("lastname"));
+					add.setEmail(request.getParameter("email"));
+					// hash the password before saving to DB using BCrypt
+					String password = request.getParameter("pass");
+					String hashed = BCrypt.hashpw(password, BCrypt.gensalt(12));
+					add.setPassword(hashed);
+					add.setDOB(LocalDate.parse(request.getParameter("dob")));
+					add.setRole(request.getParameter("role"));
+					boolean isAdded = userImpl.addUser(add);
+
+					if (isAdded) {
+						System.out.println("ok");
+						response.getWriter().append("Caller: " + parsedToken.getBody().get("email") + " >> "
+								+ parsedToken.getBody().get("role") + "\n user has been added successflly");
+						response.setStatus(200);
+					} else {
+						System.out.println("wrong");
+						response.getWriter().append("smth went wrong! try again.");
+						response.setStatus(500);
+					}
+
+				} else {
+					response.getWriter().append("Caller: " + parsedToken.getBody().get("email") + " >> " + userRole
+							+ "\n This user role is not allowed to add");
+					response.setStatus(401);
 				}
-			}catch (Exception e){
+
+			} catch (Exception e) {
 				e.printStackTrace();
 				response.getWriter().append("Invalid Token, Please login");
 				response.setStatus(401);
 			}
-			
-		}else {
+
+		} else {
 			response.getWriter().append("No Token provided, Please login!!");
 			response.setStatus(401);
 		}
 
-	
-		
 	}
 
 }

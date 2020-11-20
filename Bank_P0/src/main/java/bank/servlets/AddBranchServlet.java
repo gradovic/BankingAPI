@@ -31,21 +31,31 @@ public class AddBranchServlet extends HttpServlet {
 		if (authTokenHeader != null && !authTokenHeader.isEmpty()) {
 			try {
 				Jws<Claims> parsedToken = JwtManager.parseToken(authTokenHeader);
-				String branchName = request.getParameter("branchName");
-				String branchCity = request.getParameter("branchCity");
-				BranchDAOImpl branchImpl = new BranchDAOImpl();
-				Branch add = new Branch(branchName, branchCity);
-				boolean isAdded = branchImpl.addBranch(add);
+				String userRole = String.valueOf(parsedToken.getBody().get("role"));
+				//Test if user has admin role to be able to add or remove
+				if (userRole.equals("admin")) {
+					String branchName = request.getParameter("branchName");
+					String branchCity = request.getParameter("branchCity");
+					BranchDAOImpl branchImpl = new BranchDAOImpl();
+					Branch add = new Branch(branchName, branchCity);
+					boolean isAdded = branchImpl.addBranch(add);
 
-				if (isAdded) {
-					
-					response.getWriter().append("Caller: " + parsedToken.getBody().get("email") + "\n branch has been added successflly");
-					response.setStatus(200);
+					if (isAdded) {
+
+						response.getWriter().append("Caller: " + parsedToken.getBody().get("email") + " >> " + userRole
+								+ "\n branch has been added successflly");
+						response.setStatus(200);
+					} else {
+						System.out.println("wrong");
+						response.getWriter().append("smth went wrong! try again.");
+						response.setStatus(500);
+					}
 				} else {
-					System.out.println("wrong");
-					response.getWriter().append("smth went wrong! try again.");
-					response.setStatus(500);
+					response.getWriter().append("Caller: " + parsedToken.getBody().get("email") + " >> " + userRole
+							+ "\n This user role is not allowed to add");
+					response.setStatus(401);
 				}
+
 			} catch (Exception e) {
 				e.printStackTrace();
 				response.getWriter().append("Invalid Token, Please login");
