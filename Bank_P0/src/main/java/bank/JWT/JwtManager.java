@@ -23,10 +23,10 @@ public class JwtManager {
 	private static final SecretKey SECRET_KEY = MacProvider.generateKey(SIGNATURE_ALGORITHM);
 	private static final TemporalAmount TOKEN_VALIDITY = Duration.ofHours(4L);
 	
-	public static String createToken(final String id, final String role) {
+	public static String createToken(final String id, final String role, final String email) {
 		final Instant now = Instant.now();
 		final Date expiryDate = Date.from(now.plus(TOKEN_VALIDITY));
-		return Jwts.builder().claim("uid", id).claim("role", role).setExpiration(expiryDate)
+		return Jwts.builder().claim("uid", id).claim("role", role).claim("email", email).setExpiration(expiryDate)
 				.setIssuedAt(Date.from(now)).signWith(SIGNATURE_ALGORITHM, SECRET_KEY).compact();
 	}
 

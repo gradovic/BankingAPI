@@ -47,7 +47,7 @@ public class AddUserServlet extends HttpServlet {
 				
 				if(isAdded) {
 					System.out.println("ok");
-					response.getWriter().append("user has been added successflly");
+					response.getWriter().append("Caller: " + parsedToken.getBody().get("email") + "\n user has been added successflly");
 					response.setStatus(200);
 				}else {
 					System.out.println("wrong");

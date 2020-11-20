@@ -38,7 +38,7 @@ public class UserLoginServlet extends HttpServlet {
 				String retrivedHash = user.getPassword();
 				if(BCrypt.checkpw(password, retrivedHash)) {
 					//User is authenticated, then let's generate JWT token
-					String token = JwtManager.createToken(String.valueOf(user.getUserID()), user.getRole());
+					String token = JwtManager.createToken(String.valueOf(user.getUserID()), user.getRole(), username);
 					response.getWriter().append(token);
 					response.setStatus(200);
 				}else {

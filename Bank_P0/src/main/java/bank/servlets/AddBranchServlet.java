@@ -39,7 +39,7 @@ public class AddBranchServlet extends HttpServlet {
 
 				if (isAdded) {
 					
-					response.getWriter().append("branch has been added successflly");
+					response.getWriter().append("Caller: " + parsedToken.getBody().get("email") + "\n branch has been added successflly");
 					response.setStatus(200);
 				} else {
 					System.out.println("wrong");
