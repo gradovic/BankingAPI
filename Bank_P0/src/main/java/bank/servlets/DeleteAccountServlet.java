@@ -38,7 +38,7 @@ public class DeleteAccountServlet extends HttpServlet {
 					boolean isAdded = accountImpl.deleteAccount(accountID);
 					if (isAdded) {
 
-						response.getWriter().append("Account has been deleted successflly");
+						response.getWriter().append("Caller: " + parsedToken.getBody().get("email") + "\n Account has been deleted successflly");
 						response.setStatus(200);
 					} else {
 

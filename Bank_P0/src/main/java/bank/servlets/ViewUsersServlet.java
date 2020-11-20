@@ -36,9 +36,9 @@ public class ViewUsersServlet extends HttpServlet {
 			try {
 				Jws<Claims> parsedToken = JwtManager.parseToken(authTokenHeader);
 				UserDAOImpl impl = new UserDAOImpl();
-				List<User> users = impl.getAllusers();
+				List<User> users = impl.getAllusers();				
 				String jsonString = objectMapper.writeValueAsString(users);
-				response.getWriter().append(jsonString);
+				response.getWriter().append("Caller: " + parsedToken.getBody().get("email") + "\n" + jsonString);
 				response.setStatus(200);
 				response.setContentType("application/json");
 			}catch (Exception e){

@@ -34,7 +34,7 @@ public class DeleteUserServlet extends HttpServlet {
 				boolean isDeleted = userImpl.deleteUser(userID);
 				
 				if(isDeleted) {
-					response.getWriter().append("User has been deleted");
+					response.getWriter().append("Caller: " + parsedToken.getBody().get("email") + "\n User has been deleted");
 					response.setStatus(200);
 				}else {
 					response.getWriter().append("User doesn't exist!!");
