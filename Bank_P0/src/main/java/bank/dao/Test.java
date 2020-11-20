@@ -18,6 +18,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.impl.crypto.MacProvider;
+import org.apache.log4j.Logger;
 
 public class Test {
 
@@ -36,9 +37,10 @@ public class Test {
 		 * 
 		 * System.out.println(resultAdmin); System.out.println(resultUser);
 		 */
-		//String test = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiIxMiIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTYwNTY5MzU2MCwiaWF0IjoxNjA1Njc5MTYwfQ.jpEFHW43xvEMGmhX2Te-m-1gXUcCa0SxQQbr34Q4iis";
-		//System.out.println(test.split(" ")[1]);
-
+		// String test = "Bearer
+		// eyJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiIxMiIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTYwNTY5MzU2MCwiaWF0IjoxNjA1Njc5MTYwfQ.jpEFHW43xvEMGmhX2Te-m-1gXUcCa0SxQQbr34Q4iis";
+		// System.out.println(test.split(" ")[1]);
+		
 	}
 
 }

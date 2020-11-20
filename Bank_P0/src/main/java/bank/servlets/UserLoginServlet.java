@@ -10,10 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
 
 
 import bank.JWT.JwtManager;
+import bank.dao.Test;
 import bank.dao.UserDAOImpl;
 import bank.model.User;
 
@@ -23,6 +25,9 @@ import bank.model.User;
 @WebServlet("/login")
 public class UserLoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	final static Logger logger = Logger.getLogger(UserLoginServlet.class);
+	
+
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -41,6 +46,7 @@ public class UserLoginServlet extends HttpServlet {
 					String token = JwtManager.createToken(String.valueOf(user.getUserID()), user.getRole(), username);
 					response.getWriter().append(token);
 					response.setStatus(200);
+					logger.debug(username + " logged in");
 				}else {
 					response.getWriter().append("Incorrect Username/Paswowrd!!");
 					response.setStatus(401);
