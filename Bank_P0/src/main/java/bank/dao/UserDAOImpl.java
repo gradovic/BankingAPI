@@ -118,4 +118,23 @@ public class UserDAOImpl implements UserDAO {
 		return null;
 	}
 
+	@Override
+	public boolean updatePassword(String email, String newPassword) {
+
+		try (Connection connection = DAOUtilities.getConnection()) {
+			String sql = "update users set pass=? where email=?";
+			stmt = connection.prepareStatement(sql);
+			stmt.setString(1, newPassword);
+			stmt.setString(2, email);
+			if (stmt.executeUpdate() != 0)
+				return true;
+			else
+				return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+
+	}
+
 }
