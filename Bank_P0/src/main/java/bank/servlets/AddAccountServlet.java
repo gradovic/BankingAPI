@@ -35,22 +35,31 @@ public class AddAccountServlet extends HttpServlet {
 		if (authTokenHeader != null && !authTokenHeader.isEmpty()) {
 			try {
 				Jws<Claims> parsedToken = JwtManager.parseToken(authTokenHeader);
-				AccountDAOImpl accountImpl = new AccountDAOImpl();
-				Account add = new Account();
-				add.setUserID(Integer.parseInt(request.getParameter("userid")));
-				add.setStatus(request.getParameter("status"));
-				add.setBalance(Double.parseDouble(request.getParameter("balance")));
+				String userRole = String.valueOf(parsedToken.getBody().get("role"));
+				if (userRole.equals("admin")) {
+					AccountDAOImpl accountImpl = new AccountDAOImpl();
+					Account add = new Account();
+					add.setUserID(Integer.parseInt(request.getParameter("userid")));
+					add.setStatus(request.getParameter("status"));
+					add.setBalance(Double.parseDouble(request.getParameter("balance")));
 
-				boolean isAdded = accountImpl.addAccount(add);
+					boolean isAdded = accountImpl.addAccount(add);
 
-				if (isAdded) {
+					if (isAdded) {
 
-					response.getWriter().append("Caller: " + parsedToken.getBody().get("email") + "\n Account has been added successflly");
-					response.setStatus(200);
+						response.getWriter().append("Caller: " + parsedToken.getBody().get("email") + " >> "
+								+ parsedToken.getBody().get("role") + "\n Account has been added successflly");
+						response.setStatus(200);
+					} else {
+
+						response.getWriter().append("smth went wrong! try again.");
+						response.setStatus(500);
+					}
+
 				} else {
-
-					response.getWriter().append("smth went wrong! try again.");
-					response.setStatus(500);
+					response.getWriter().append("Caller: " + parsedToken.getBody().get("email") + " >> " + userRole
+							+ "\n This user role is not allowed to add");
+					response.setStatus(401);
 				}
 
 			} catch (Exception e) {

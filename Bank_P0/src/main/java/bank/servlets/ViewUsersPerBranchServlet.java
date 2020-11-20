@@ -44,7 +44,7 @@ public class ViewUsersPerBranchServlet extends HttpServlet {
 					List<User> users = branchImpl.getAllUsersByBranch(branchID);
 					if (users.size() > 0) {
 						String jsonString = objectMapper.writeValueAsString(users);
-						response.getWriter().append("Caller: " + parsedToken.getBody().get("email") + "\n" + jsonString);
+						response.getWriter().append("Caller: " + parsedToken.getBody().get("email") + " >> " + parsedToken.getBody().get("role") + "\n" + jsonString);
 						response.setStatus(200);
 						response.setContentType("application/json");
 					} else {

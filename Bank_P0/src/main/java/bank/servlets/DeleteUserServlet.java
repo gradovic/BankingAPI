@@ -18,45 +18,53 @@ import io.jsonwebtoken.Jws;
 @WebServlet("/delete_user")
 public class DeleteUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		String authTokenHeader = request.getHeader("Authorization");
-		if(authTokenHeader != null && !authTokenHeader.isEmpty()) {
+		if (authTokenHeader != null && !authTokenHeader.isEmpty()) {
 			try {
 				Jws<Claims> parsedToken = JwtManager.parseToken(authTokenHeader);
-				String query = request.getQueryString();
-				try {
-				int userID = Integer.parseInt(query);
-				UserDAOImpl userImpl = new UserDAOImpl();
-				boolean isDeleted = userImpl.deleteUser(userID);
-				
-				if(isDeleted) {
-					response.getWriter().append("Caller: " + parsedToken.getBody().get("email") + "\n User has been deleted");
-					response.setStatus(200);
-				}else {
-					response.getWriter().append("User doesn't exist!!");
-					response.setStatus(404);
+				String userRole = String.valueOf(parsedToken.getBody().get("role"));
+				//Test if user has admin role to be able to add or remove
+				if (userRole.equals("admin")) {
+					String query = request.getQueryString();
+					try {
+						int userID = Integer.parseInt(query);
+						UserDAOImpl userImpl = new UserDAOImpl();
+						boolean isDeleted = userImpl.deleteUser(userID);
+
+						if (isDeleted) {
+							response.getWriter().append("Caller: " + parsedToken.getBody().get("email") + " >> "
+									+ parsedToken.getBody().get("role") + "\n User has been deleted");
+							response.setStatus(200);
+						} else {
+							response.getWriter().append("User doesn't exist!!");
+							response.setStatus(404);
+						}
+					} catch (NumberFormatException e) {
+						response.getWriter().append("userID must be number only!! (eg url/delete_user?2)");
+						response.setStatus(422);
+					}
+
+				} else {
+					response.getWriter().append("Caller: " + parsedToken.getBody().get("email") + " >> " + userRole
+							+ "\n This user role is not allowed to delete");
+					response.setStatus(401);
 				}
-				}catch (NumberFormatException e) {
-					response.getWriter().append("userID must be number only!! (eg url/delete_user?2)");
-					response.setStatus(422);
-				}
-			}catch (Exception e){
+
+			} catch (Exception e) {
 				e.printStackTrace();
 				response.getWriter().append("Invalid Token, Please login");
 				response.setStatus(401);
 			}
-			
-		}else {
+
+		} else {
 			response.getWriter().append("No Token provided, Please login!!");
 			response.setStatus(401);
 		}
-		
-		
-		
+
 	}
 
 }
