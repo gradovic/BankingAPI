@@ -1,4 +1,4 @@
--- first, create database called "Bank_P0"
+-- first, create database and name it "Bank_P0"
 
 CREATE TABLE branches
 (
@@ -16,6 +16,7 @@ CREATE TABLE users
 	Email			VARCHAR(30) unique not null,
 	pass		VARCHAR(80) not null,
 	DOB 	date not null,
+    role VARCHAR(5) not null,
 	constraint fk_branchID
      foreign key (BranchID) 
      REFERENCES branches (BranchID)
@@ -25,7 +26,6 @@ CREATE TABLE accounts
 (
     AccountID    serial primary key,
 	UserID 			integer,
-	AccountNumber VARCHAR(9) not null,
     Balance        numeric(6, 2) not null,
     OpenDate		date not null default current_date,
 	Status			VARCHAR(10) not null,
