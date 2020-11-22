@@ -57,8 +57,9 @@ public class BranchDAOImpl implements BranchDAO {
 				user.setFirstName(rs.getString("firstname"));
 				user.setLastName(rs.getString("lastname"));
 				user.setEmail(rs.getString("email"));
-				user.setPassword(rs.getString("pass"));
+				user.setPassword("NA");
 				user.setDOB(rs.getDate("dob").toLocalDate());
+				user.setRole(rs.getString("role"));
 				users.add(user);
 			}
 			rs.close();

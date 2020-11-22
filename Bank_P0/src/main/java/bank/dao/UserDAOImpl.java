@@ -30,7 +30,7 @@ public class UserDAOImpl implements UserDAO {
 				user.setFirstName(result.getString("firstname"));
 				user.setLastName(result.getString("lastname"));
 				user.setEmail(result.getString("email"));
-				user.setPassword(result.getString("pass"));
+				user.setPassword("NA");
 				user.setDOB(result.getDate("dob").toLocalDate());
 				user.setRole(result.getString("role"));
 

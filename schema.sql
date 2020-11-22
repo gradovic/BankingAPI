@@ -1,4 +1,4 @@
--- first, create database and name it "Bank_P0"
+-- first create database with name "Bank_P0"
 
 CREATE TABLE branches
 (
@@ -32,5 +32,5 @@ CREATE TABLE accounts
 	constraint fk_userid
      foreign key (UserID) 
      REFERENCES users (UserID)
-	on delete cascade;
+	on delete cascade
 );

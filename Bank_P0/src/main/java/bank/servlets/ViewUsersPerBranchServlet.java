@@ -23,7 +23,7 @@ import io.jsonwebtoken.Jws;
 /**
  * Servlet implementation class ViewUsersPerBranch
  */
-@WebServlet("/user_branches")
+@WebServlet("/branch_users")
 public class ViewUsersPerBranchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ObjectMapper objectMapper = new ObjectMapper();
@@ -53,7 +53,7 @@ public class ViewUsersPerBranchServlet extends HttpServlet {
 					}
 
 				} catch (NumberFormatException e) {
-					response.getWriter().append("branchID must be number only!! (eg url/user_branches?2)");
+					response.getWriter().append("branchID must be number only!! (eg url/branch_users?2)");
 					response.setStatus(422);
 				}
 			} catch(Exception e) {
