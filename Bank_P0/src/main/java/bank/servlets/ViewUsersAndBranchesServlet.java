@@ -24,26 +24,27 @@ import io.jsonwebtoken.Jws;
 public class ViewUsersAndBranchesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ObjectMapper objectMapper = new ObjectMapper();
-	
-    
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		String authTokenHeader = request.getHeader("Authorization");
-		if(authTokenHeader != null && !authTokenHeader.isEmpty()) {
+		if (authTokenHeader != null && !authTokenHeader.isEmpty()) {
 			try {
 				Jws<Claims> parsedToken = JwtManager.parseToken(authTokenHeader);
 				UserBranchIntImpl userBranch = new UserBranchIntImpl();
 				List<UserBranchTemplate> usersBranches = userBranch.getUsersBranchName();
 				String jsonString = objectMapper.writeValueAsString(usersBranches);
-				response.getWriter().append("Caller: " + parsedToken.getBody().get("email") + " >> " + parsedToken.getBody().get("role") + "\n" + jsonString);
+				response.getWriter().append("Caller: " + parsedToken.getBody().get("email") + " >> "
+						+ parsedToken.getBody().get("role") + "\n" + jsonString);
 				response.setStatus(200);
 				response.setContentType("application/json");
-			}catch (Exception e){
+			} catch (Exception e) {
 				e.printStackTrace();
 				response.getWriter().append("Invalid Token, Please login");
 				response.setStatus(401);
 			}
-			
-		}else {
+
+		} else {
 			response.getWriter().append("No Token provided, Please login!!");
 			response.setStatus(401);
 		}
