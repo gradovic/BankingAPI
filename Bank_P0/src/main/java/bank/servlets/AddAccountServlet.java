@@ -9,11 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import bank.JWT.JwtManager;
 import bank.dao.AccountDAOImpl;
-import bank.dao.BranchDAOImpl;
-import bank.dao.UserDAOImpl;
 import bank.model.Account;
-import bank.model.Branch;
-import bank.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 

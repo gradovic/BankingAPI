@@ -1,8 +1,6 @@
 package bank.servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -16,7 +14,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import bank.JWT.JwtManager;
 import bank.dao.AccountDAOImpl;
 import bank.model.Account;
-import bank.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 

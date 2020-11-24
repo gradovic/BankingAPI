@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import bank.JWT.JwtManager;
-import bank.dao.BranchDAOImpl;
-import bank.model.Branch;
 import bank.template.UserBranchIntImpl;
 import bank.template.UserBranchTemplate;
 import io.jsonwebtoken.Claims;
