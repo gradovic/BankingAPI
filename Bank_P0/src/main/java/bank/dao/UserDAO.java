@@ -11,5 +11,6 @@ public interface UserDAO {
 	boolean deleteUser(int userID);
 	boolean updatePassword(String email, String newPassword);
 	User getUserByEmail(String username);
-	//boolean isAuthorized(String username, String password);
+	boolean updateProfileImage(int userID, byte[] image);
+	byte[] getProfileImage(int userID);
 }

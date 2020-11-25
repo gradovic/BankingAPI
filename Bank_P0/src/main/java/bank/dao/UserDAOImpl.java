@@ -137,4 +137,40 @@ public class UserDAOImpl implements UserDAO {
 
 	}
 
+	@Override
+	public boolean updateProfileImage(int userID, byte[] image) {
+		try (Connection connection = DAOUtilities.getConnection()) {
+			String sql = "update users set image=? where userid=?";
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(2, userID);
+			stmt.setBytes(1, image);
+			if (stmt.executeUpdate() != 0)
+				return true;
+			else
+				return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public byte[] getProfileImage(int userID) {
+		try (Connection connection = DAOUtilities.getConnection()) {
+			String sql = "select image from users where userid=?";
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, userID);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				return rs.getBytes("image");
+			} else {
+				return null;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
 }
