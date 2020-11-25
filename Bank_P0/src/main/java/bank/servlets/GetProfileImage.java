@@ -11,7 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bank.JWT.JwtManager;
 import bank.dao.UserDAOImpl;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 
 /**
  * Servlet implementation class GetProfileImage
@@ -22,25 +25,35 @@ public class GetProfileImage extends HttpServlet {
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String query = request.getQueryString();
-		try {
-			int userID = Integer.parseInt(query);
-			UserDAOImpl userImpl = new UserDAOImpl();
-			byte[] image = userImpl.getProfileImage(userID);
-			InputStream is = new ByteArrayInputStream(image);
-			OutputStream os = response.getOutputStream();
-			byte[] buffer = new byte[1024];
-			while (is.read(buffer) != -1) {
-				os.write(buffer);
+		
+		String authTokenHeader = request.getHeader("Authorization");
+		if (authTokenHeader != null && !authTokenHeader.isEmpty()) {
+			try {
+				Jws<Claims> parsedToken = JwtManager.parseToken(authTokenHeader);
+				String email = String.valueOf(parsedToken.getBody().get("email"));
+				UserDAOImpl userImpl = new UserDAOImpl();
+				byte[] image = userImpl.getProfileImage(email);
+				InputStream is = new ByteArrayInputStream(image);
+				OutputStream os = response.getOutputStream();
+				byte[] buffer = new byte[1024];
+				while (is.read(buffer) != -1) {
+					os.write(buffer);
+				}
+				os.flush();
+				os.close();
+				is.close();
+			}catch (Exception e) {
+					response.getWriter().append("Invalid Token, Please login");
+					e.printStackTrace();
+					response.setStatus(401);
+				}
+		}else {
+				response.getWriter().append("No Token provided, Please login!!");
+				response.setStatus(401);
 			}
-			os.flush();
-			os.close();
-			is.close();
-			
-		} catch (NumberFormatException e) {
-			response.getWriter().append("userID must be number only!! (eg url/profile_image?2)");
-			response.setStatus(422);
-		}
+		//////////////////
+		
+		
 
 	}
 

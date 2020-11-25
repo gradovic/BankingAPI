@@ -12,7 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import bank.JWT.JwtManager;
 import bank.dao.UserDAOImpl;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 
 /**
  * Servlet implementation class UpdateUserImage
@@ -28,36 +31,48 @@ public class UpdateUserImageServelet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String userID = request.getParameter("userid");
-		Part image = request.getPart("image");
 
-		try (InputStream is = image.getInputStream(); ByteArrayOutputStream os = new ByteArrayOutputStream();) {
+		String authTokenHeader = request.getHeader("Authorization");
+		if (authTokenHeader != null && !authTokenHeader.isEmpty()) {
+			try {
+				Jws<Claims> parsedToken = JwtManager.parseToken(authTokenHeader);
+				String email = String.valueOf(parsedToken.getBody().get("email"));
+				Part image = request.getPart("image");
 
-			byte[] buffer = new byte[1024];
+				try (InputStream is = image.getInputStream(); ByteArrayOutputStream os = new ByteArrayOutputStream();) {
 
-			while (is.read(buffer) != -1) {
-				os.write(buffer);
+					byte[] buffer = new byte[1024];
+
+					while (is.read(buffer) != -1) {
+						os.write(buffer);
+					}
+
+					UserDAOImpl userImpl = new UserDAOImpl();
+					boolean isUploaded = userImpl.updateProfileImage(email, os.toByteArray());
+
+					if (isUploaded) {
+						response.getWriter().append("image has been uploaded successfully");
+						response.setStatus(200);
+					} else {
+						response.getWriter().append("smth went wrong, Could not upload image!");
+						response.setStatus(500);
+					}
+
+				} catch (IOException e) {
+					response.getWriter().append("smth went wrong, Could not upload image!");
+					response.setStatus(500);
+					e.printStackTrace();
+				}
+
+			} catch (Exception e) {
+				response.getWriter().append("Invalid Token, Please login");
+				e.printStackTrace();
+				response.setStatus(401);
 			}
-			
-			UserDAOImpl userImpl = new UserDAOImpl();
-			boolean isUploaded = userImpl.updateProfileImage(Integer.parseInt(userID), os.toByteArray());
-			
-			if(isUploaded) {
-				response.getWriter().append("image has been uploaded successfully");
-				response.setStatus(200);
-			}else {
-				response.getWriter().append("smth went wrong, Could not upload image!");
-				response.setStatus(500);
-			}
-			
-			
-			
-		} catch (IOException e) {
-			response.getWriter().append("smth went wrong, Could not upload image!");
-			response.setStatus(500);
-			e.printStackTrace();
+		} else {
+			response.getWriter().append("No Token provided, Please login!!");
+			response.setStatus(401);
 		}
-		
 
 	}
 

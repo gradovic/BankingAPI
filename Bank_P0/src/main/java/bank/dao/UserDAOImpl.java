@@ -138,11 +138,11 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public boolean updateProfileImage(int userID, byte[] image) {
+	public boolean updateProfileImage(String email, byte[] image) {
 		try (Connection connection = DAOUtilities.getConnection()) {
-			String sql = "update users set image=? where userid=?";
+			String sql = "update users set image=? where email=?";
 			stmt = connection.prepareStatement(sql);
-			stmt.setInt(2, userID);
+			stmt.setString(2, email);
 			stmt.setBytes(1, image);
 			if (stmt.executeUpdate() != 0)
 				return true;
@@ -155,11 +155,11 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public byte[] getProfileImage(int userID) {
+	public byte[] getProfileImage(String email) {
 		try (Connection connection = DAOUtilities.getConnection()) {
-			String sql = "select image from users where userid=?";
+			String sql = "select image from users where email=?";
 			stmt = connection.prepareStatement(sql);
-			stmt.setInt(1, userID);
+			stmt.setString(1, email);
 			ResultSet rs = stmt.executeQuery();
 			if (rs.next()) {
 				return rs.getBytes("image");

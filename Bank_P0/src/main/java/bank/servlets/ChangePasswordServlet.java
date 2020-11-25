@@ -66,8 +66,8 @@ public class ChangePasswordServlet extends HttpServlet {
 				}
 
 			} catch (Exception e) {
-				e.printStackTrace();
 				response.getWriter().append("Invalid Token, Please login");
+				e.printStackTrace();
 				response.setStatus(401);
 			}
 
