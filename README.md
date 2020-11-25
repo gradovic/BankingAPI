@@ -131,6 +131,44 @@ user has been added successfully
 
 #
 
+<h4><strong>Change User Profile Picture</strong></h4>
+User can change his/her profile picture<br>
+POST: <strong>http://localhost:8080/Bank_P0/update_image</strong>
+<br>
+Post Body: enctype="multipart/form-data" <br>
+<table>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+<tr>
+<td>image</td>
+<td>select an image on your file system</td>
+</tr>
+<tr>
+<td>userid</td>
+<td>The id of the user you would like to change his/her profile picture</td>
+</tr>
+</table>
+
+```
+Result Body:
+image has been uploaded successfully
+```
+
+#
+
+<h4><strong>Display User profile Picture</strong></h4>
+User can fetch his/her profile picture<br>
+GET: <strong>http://localhost:8080/Bank_P0/profile_image?[userID]</strong>
+
+```
+Result Body:
+<image>
+```
+
+#
+
 <h4><strong>Add Account</strong></h4>
 The user with admin role can create new account after signing in<br>
 POST: <strong>http://localhost:8080/Bank_P0/add_account</strong>
