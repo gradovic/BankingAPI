@@ -1,7 +1,5 @@
 # Banking API
 
-test test
-
 <h3>Product Description</h3>
 <hr>
 This is a backend API server build mainly using Java servlet which privdes an interaction interface between the user and database storing the bank information.
