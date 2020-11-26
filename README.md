@@ -132,7 +132,7 @@ user has been added successfully
 #
 
 <h4><strong>Change User Profile Picture</strong></h4>
-User can change his/her profile picture<br>
+User can change his/her profile picture after logging in<br>
 POST: <strong>http://localhost:8080/Bank_P0/update_image</strong>
 <br>
 Post Body: enctype="multipart/form-data" <br>
@@ -145,10 +145,6 @@ Post Body: enctype="multipart/form-data" <br>
 <td>image</td>
 <td>select an image on your file system</td>
 </tr>
-<tr>
-<td>userid</td>
-<td>The id of the user you would like to change his/her profile picture</td>
-</tr>
 </table>
 
 ```
@@ -159,8 +155,8 @@ image has been uploaded successfully
 #
 
 <h4><strong>Display User profile Picture</strong></h4>
-User can fetch his/her profile picture<br>
-GET: <strong>http://localhost:8080/Bank_P0/profile_image?[userID]</strong>
+User can display his/her current profile picture after logging in<br>
+GET: <strong>http://localhost:8080/Bank_P0/profile_image</strong>
 
 ```
 Result Body:

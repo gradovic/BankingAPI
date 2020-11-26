@@ -17,6 +17,7 @@ CREATE TABLE users
 	pass		VARCHAR(80) not null,
 	DOB 	date not null,
     role VARCHAR(5) not null,
+    image bytea,
 	constraint fk_branchID
      foreign key (BranchID) 
      REFERENCES branches (BranchID)
