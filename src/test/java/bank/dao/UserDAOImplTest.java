@@ -2,19 +2,19 @@ package bank.dao;
 
 import static org.junit.Assert.*;
 
-import java.time.LocalDate;
-import java.util.List;
+//import java.time.LocalDate;
+//import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import bank.model.User;
+//import bank.model.User;
 
 public class UserDAOImplTest {
-	private UserDAOImpl impl;
+	//private UserDAOImpl impl;
 	@Before
 	public void setUp() throws Exception {
-		impl = new UserDAOImpl();
+		//impl = new UserDAOImpl();
 	}
 
 	@Test
