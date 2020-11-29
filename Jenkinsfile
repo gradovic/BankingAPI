@@ -1,5 +1,7 @@
 pipeline {
     agent any
+
+    stages {
         stage('clean') {
             steps {
                 sh 'mvn clean'
@@ -15,5 +17,5 @@ pipeline {
         		sh 'cp /home/ec2-user/.jenkins/workspace/Bank_P0/target/Bank_P0.war /home/ec2-user/apache-tomcat-9.0.40/webapps'
         	}
         }
-    }
+    }    
 }
