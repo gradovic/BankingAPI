@@ -4,6 +4,15 @@
 <hr>
 This is a backend API server build mainly using Java servlet which privdes an interaction interface between the user and database storing the bank information.
 
+<h3>Deployed on AWS</h3>
+<hr>
+Link: http://ec2-54-183-246-233.us-west-1.compute.amazonaws.com:8080/Bank_P0/
+<br>
+Demo Users:<br>
+Admin user >> username: admin@gmail.com / password: 123
+<br>
+Regular user >> username: user@gmail.com / password: 123
+
 <h3>Database Schema</h3>
 <hr>
 The bank database consist of 3 tables with one-to-many relationship between them as show below
@@ -28,6 +37,8 @@ Note: the user has to provide his/her token everytime interacts with the server 
 ```
 
 POST: <strong>http://localhost:8080/Bank_P0/login</strong>
+<br>Or<br>
+POST: <strong>http://ec2-54-183-246-233.us-west-1.compute.amazonaws.com:8080/Bank_P0/login</strong>
 <br>
 Post Body: x-www-form-urlencoded <br>
 
@@ -58,6 +69,8 @@ eyJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiIxNCIsInJvbGUiOiJhZG1pbiIsImVtYWlsIjoidGVzdEBnbWF
 <h4><strong>Change Password</strong></h4>
 The user can change his/her password after signning in <br>
 POST: <strong>http://localhost:8080/Bank_P0/change_pass</strong>
+<br>Or<br>
+POST: <strong>http://ec2-54-183-246-233.us-west-1.compute.amazonaws.com:8080/Bank_P0/change_pass</strong>
 <br>
 Post Body: x-www-form-urlencoded <br>
 <table>
@@ -86,6 +99,8 @@ password has been changed successflly
 <h4><strong>Add User</strong></h4>
 The user with admin role can create new user after signing in<br>
 POST: <strong>http://localhost:8080/Bank_P0/add_user</strong>
+<br>Or<br>
+POST: <strong>http://ec2-54-183-246-233.us-west-1.compute.amazonaws.com:8080/Bank_P0/add_user</strong>
 <br>
 Post Body: x-www-form-urlencoded <br>
 <table>
@@ -134,6 +149,8 @@ user has been added successfully
 <h4><strong>Change User Profile Picture</strong></h4>
 User can change his/her profile picture after logging in<br>
 POST: <strong>http://localhost:8080/Bank_P0/update_image</strong>
+<br>Or<br>
+POST: <strong>http://ec2-54-183-246-233.us-west-1.compute.amazonaws.com:8080/Bank_P0/update_image</strong>
 <br>
 Post Body: enctype="multipart/form-data" <br>
 <table>
@@ -157,6 +174,9 @@ image has been uploaded successfully
 <h4><strong>Display User profile Picture</strong></h4>
 User can display his/her current profile picture after logging in<br>
 GET: <strong>http://localhost:8080/Bank_P0/profile_image</strong>
+<br>Or<br>
+GET: <strong>http://ec2-54-183-246-233.us-west-1.compute.amazonaws.com:8080/Bank_P0/profile_image</strong>
+<br>
 
 ```
 Result Body:
@@ -168,6 +188,8 @@ Result Body:
 <h4><strong>Add Account</strong></h4>
 The user with admin role can create new account after signing in<br>
 POST: <strong>http://localhost:8080/Bank_P0/add_account</strong>
+<br>Or<br>
+POST: <strong>http://ec2-54-183-246-233.us-west-1.compute.amazonaws.com:8080/Bank_P0/add_account</strong>
 <br>
 Post Body: x-www-form-urlencoded <br>
 <table>
@@ -201,6 +223,9 @@ Account has been added successfully
 The user with admin role can create new branch after signing in<br>
 POST: <strong>http://localhost:8080/Bank_P0/add_branch</strong>
 <br>
+<br>Or<br>
+POST: <strong>http://ec2-54-183-246-233.us-west-1.compute.amazonaws.com:8080/Bank_P0/add_branch</strong>
+<br>
 Post Body: x-www-form-urlencoded <br>
 <table>
 <tr>
@@ -228,6 +253,9 @@ branch has been added successfully
 <h4><strong>Delete User</strong></h4>
 The user with admin role can delete user by user ID after signing in<br>
 GET: <strong>http://localhost:8080/Bank_P0/delete_user?[userID]</strong>
+<br>Or<br>
+GET: <strong>http://ec2-54-183-246-233.us-west-1.compute.amazonaws.com:8080/Bank_P0/delete_user?[userID]</strong>
+<br>
 
 ```
 Result Body:
@@ -240,6 +268,9 @@ User has been deleted
 <h4><strong>Delete Account</strong></h4>
 The user with admin role can delete account by account ID after signing in<br>
 GET: <strong>http://localhost:8080/Bank_P0/delete_account?[accountID]</strong>
+<br>Or<br>
+GET: <strong>http://ec2-54-183-246-233.us-west-1.compute.amazonaws.com:8080/Bank_P0/delete_account?[accountID]</strong>
+<br>
 
 ```
 Result Body:
@@ -252,6 +283,9 @@ Account has been deleted successflly
 <h4><strong>View Accounts</strong></h4>
 The user can list all the bank accounts after signing in<br>
 GET: <strong>http://localhost:8080/Bank_P0/get_accounts</strong>
+<br>Or<br>
+GET: <strong>http://ec2-54-183-246-233.us-west-1.compute.amazonaws.com:8080/Bank_P0/get_accounts</strong>
+<br>
 
 ```json
 Result Body:
@@ -284,6 +318,9 @@ Caller test@gmail.com >> admin
 <h4><strong>View Accounts Per User</strong></h4>
 The user can list all the bank accounts for each user after signing in<br>
 GET: <strong>http://localhost:8080/Bank_P0/user_accounts?[userID]</strong>
+<br>Or<br>
+GET: <strong>http://ec2-54-183-246-233.us-west-1.compute.amazonaws.com:8080/Bank_P0/user_accounts?[userID]</strong>
+<br>
 
 ```json
 Result Body:
@@ -316,6 +353,9 @@ Caller test@gmail.com >> admin
 <h4><strong>View Branches</strong></h4>
 The user can list all the bank branches after signing in<br>
 GET: <strong>http://localhost:8080/Bank_P0/get_branches</strong>
+<br>Or<br>
+GET: <strong>http://ec2-54-183-246-233.us-west-1.compute.amazonaws.com:8080/Bank_P0/get_branches</strong>
+<br>
 
 ```json
 Result Body:
@@ -341,6 +381,9 @@ Caller test@gmail.com >> admin
 <h4><strong>View Users Per Branch</strong></h4>
 The user can list all users in the bank branch after signing in<br>
 GET: <strong>http://localhost:8080/Bank_P0/branch_users?[branchID]</strong>
+<br>Or<br>
+GET: <strong>http://ec2-54-183-246-233.us-west-1.compute.amazonaws.com:8080/Bank_P0/branch_users?[branchID]</strong>
+<br>
 
 ```json
 Result Body:
@@ -400,6 +443,9 @@ Caller test@gmail.com >> admin
 <h4><strong>View Users</strong></h4>
 The user can list all users in the bank after signing in<br>
 GET: <strong>http://localhost:8080/Bank_P0/get_users</strong>
+<br>Or<br>
+GET: <strong>http://ec2-54-183-246-233.us-west-1.compute.amazonaws.com:8080/Bank_P0/get_users</strong>
+<br>
 
 ```json
 Result Body:
